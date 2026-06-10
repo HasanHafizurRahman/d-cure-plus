@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Bangla:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "IBM Plex Sans Bangla", "Inter", sans-serif;
+  
+  --color-primary-dark: #003520;
+  --color-primary-light: #b2f0cc;
+  --color-primary-medium: #125136;
+  --color-accent-gold: #fed65b;
+  --color-accent-dark-gold: #745c00;
+  --color-brand-red: #ba1a1a;
+  --color-brand-green: #2d8a2d;
+  --color-surface-bg: #f7faf8;
+}
+
+.bangla-text {
+  line-height: 1.6;
+}
+
+/* Duotone icon styles and scroll utility */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
