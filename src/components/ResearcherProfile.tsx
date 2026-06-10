@@ -6,7 +6,7 @@ export default function ResearcherProfile() {
     <section id="researcher" className="py-16 md:py-24 bg-[#f2f5f3]">
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* Image Column */}
           <div className="col-span-1 lg:col-span-5 flex justify-center items-center" id="researcher-image-container">
             <motion.div
@@ -27,7 +27,7 @@ export default function ResearcherProfile() {
 
           {/* Text/Content Column */}
           <div className="col-span-1 lg:col-span-7 flex flex-col space-y-6 text-left bangla-text" id="researcher-content">
-            
+
             {/* Heading */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -64,7 +64,7 @@ export default function ResearcherProfile() {
               id="researcher-bio"
             >
               <p>
-                বিশিষ্ট ডায়াবেটিস ও আয়ুর্বেদ গবেষক ডা. মুহাম্মদ আবদুল হক ঢাকা বিশ্ববিদ্যালয়ের অধিভুক্ত Govt. Unani & Ayurvedic Medical College and Hospital থেকে বি.এ.এম.এস কোর্স সম্পন্ন করার পর বাংলাদেশ ইনস্টিটিউট অব পাবলিক হেলথ এনভায়রনমেন্ট অ্যান্ড রিসার্চ (BIPHER) থেকে আয়ুর্বেদ মেডিসিনে পোস্ট গ্রাজুয়েট ডিপ্লোমা ডিগ্রি লাভ করে ডায়াবেটিস – চর্ম – যৌন রোগে Dissertation সম্পন্ন করেন। তিনি Bangladesh Agricultural University-র Pharmacology Department-এ আয়ুর্বেদ মেডিসিন থেকে এই প্রথম এম.এস ডিগ্রি অর্জন করেন। ২০০৪ সালে Rat Model-এ Antidiabetic ভেষজ ওষুধ প্রয়োগ করে এম.এস থিসিস সম্পন্ন করেন। তিনি RIB ও BFRI-এর যৌথ প্রকল্পের অধীনে Research & Scientific Officer হিসেবে কর্মরত ছিলেন এবং International Journal-এ তার ছয়টি গবেষণাপত্র প্রকাশিত হয়েছে।
+                বিশিষ্ট আয়ুর্বেদ মেডিসিন ও ডায়াবেটিস গবেষক ডা. মুহাম্মদ আবদুল হক ঢাকা বিশ্ববিদ্যালয়ের অধিভুক্ত Govt. Unani & Ayurvedic Medical College and Hospital থেকে বি.এ.এম.এস কোর্স সম্পন্ন করার পর বাংলাদেশ ইনস্টিটিউট অব পাবলিক হেলথ এনভায়রনমেন্ট অ্যান্ড রিসার্চ (BIPHER) থেকে আয়ুর্বেদ মেডিসিনে পোস্ট গ্রাজুয়েট ডিপ্লোমা ডিগ্রি লাভ করে ডায়াবেটিস – চর্ম – যৌন রোগে Dissertation সম্পন্ন করেন। তিনি Bangladesh Agricultural University-র Pharmacology Department-এ আয়ুর্বেদ মেডিসিন থেকে এই প্রথম এম.এস ডিগ্রি অর্জন করেন। ২০০৪ সালে Rat Model-এ Antidiabetic ভেষজ ওষুধ প্রয়োগ করে এম.এস থিসিস সম্পন্ন করেন। তিনি RIB ও BFRI-এর যৌথ প্রকল্পের অধীনে Research & Scientific Officer হিসেবে কর্মরত ছিলেন এবং International Journal-এ তার ছয়টি গবেষণাপত্র প্রকাশিত হয়েছে।
               </p>
               <p>
                 ডা. মুহাম্মদ আবদুল হক বারডেম ও সুইজারল্যান্ডের ভেষজ বৈজ্ঞানিকদের সমন্বয়ে আয়োজিত ইন্টারন্যাশনাল "অ্যানরাপ" সেমিনারে তার গবেষণার মূল বিষয়সমূহ উপস্থাপন করেন। দীর্ঘ গবেষণায় তিনি লক্ষ্য করেন যে, সঠিক ভেষজ ফর্মুলেশনের মাধ্যমে অগ্ন্যাশয়ের ক্ষতিগ্রস্ত বিটা সেলকে সুস্থ করে ইনসুলিন উৎপাদন স্বাভাবিক রাখা সম্ভব। তার এই সফল গবেষণার ধারাবাহিকতায় এবং রোগীদের অনুপ্রেরণায় তিনি "Cedra" Diabetes Consultation Centre নামীয় চিকিৎসা ও গবেষণা প্রকল্পের শুভ সূচনা করেন। আলহামদুলিল্লাহ, ইতিমধ্যে অসংখ্য রোগী এই সেবার মাধ্যমে উপকৃত হয়েছেন।
@@ -85,10 +85,10 @@ export default function ResearcherProfile() {
                 <span className="text-xl sm:text-2xl font-display font-bold text-primary-dark">২০+ বছর</span>
                 <span className="text-xs sm:text-sm text-primary-dark/70 font-sans mt-0.5">অভিজ্ঞতা</span>
               </div>
-              
+
               {/* Divider */}
               <div className="h-10 w-[1px] bg-primary-dark/20"></div>
-              
+
               {/* Stat 2 */}
               <div className="text-center lg:text-left flex flex-col">
                 <span className="text-xl sm:text-2xl font-display font-bold text-primary-dark">৫০০০+</span>
