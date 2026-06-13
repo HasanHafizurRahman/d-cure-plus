@@ -76,6 +76,23 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
 
     onSubmitOrder(orderPayload);
 
+    // Send order details to WhatsApp
+    const message = `*নতুন অর্ডার তথ্য:*
+--------------------
+*অর্ডার আইডি:* ${generatedId}
+*প্যাকেজ:* ${currentPackage.title}
+*প্যাকেজ মূল্য:* ৳${currentPackage.price}
+*গ্রাহকের নাম:* ${customerName}
+*মোবাইল নম্বর:* ${cleanPhone}
+*ঠিকানা:* ${address}
+*ডেলিভারি এলাকা:* ${deliveryArea === 'inside' ? 'ঢাকার ভিতরে' : 'ঢাকার বাইরে'}
+*ডেলিভারি চার্জ:* ৳${deliveryCharge}
+*সর্বমোট মূল্য:* ৳${totalCost}
+--------------------`;
+
+    const whatsappUrl = `https://wa.me/8801858643922?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+
     // Reset local state fields
     setCustomerName('');
     setPhoneNumber('');
@@ -85,7 +102,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
   return (
     <section id="checkout" className="py-16 md:py-24 bg-gradient-to-b from-[#f7faf8] to-[#edf3ef] border-t border-slate-200 scroll-mt-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
-        
+
         {/* Title Details */}
         <div className="max-w-xl mx-auto mb-12 space-y-3">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-primary-dark tracking-tight">
@@ -106,7 +123,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
           </div>
 
           <form onSubmit={handleConfirmOrder} className="p-6 md:p-10 space-y-8 text-left">
-            
+
             {/* Step 1: Choose Package Option */}
             <div className="space-y-4">
               <div className="flex items-center gap-2">
@@ -118,21 +135,19 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                 {packageOptions.map((pkg) => {
                   const isChecked = selectedPkgId === pkg.id;
                   return (
-                    <div 
+                    <div
                       key={pkg.id}
                       onClick={() => setSelectedPkgId(pkg.id as PackageId)}
-                      className={`relative flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer select-none ${
-                        isChecked 
-                          ? 'border-brand-green bg-brand-green/5' 
+                      className={`relative flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer select-none ${isChecked
+                          ? 'border-brand-green bg-brand-green/5'
                           : 'border-slate-200 bg-white hover:border-slate-300'
-                      }`}
+                        }`}
                       id={`radio-${pkg.id}`}
                     >
                       {/* Left: Input + label */}
                       <div className="flex items-center gap-3">
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                          isChecked ? 'border-brand-green bg-brand-green' : 'border-slate-300 bg-white'
-                        }`}>
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${isChecked ? 'border-brand-green bg-brand-green' : 'border-slate-300 bg-white'
+                          }`}>
                           {isChecked && <div className="w-2.5 h-2.5 rounded-full bg-white"></div>}
                         </div>
                         <div className="font-display">
@@ -164,15 +179,15 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
               </div>
 
               <div className="space-y-4 font-sans text-sm">
-                
+
                 {/* Name */}
                 <div className="space-y-1.5">
                   <label className="font-display font-semibold text-primary-dark block flex items-center gap-1.5">
                     <User size={16} className="text-brand-green" />
                     আপনার নাম *
                   </label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={customerName}
                     onChange={(e) => setCustomerName(e.target.value)}
                     placeholder="সম্পূর্ণ নামটি লিখুন"
@@ -187,8 +202,8 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                     <Smartphone size={16} className="text-brand-green" />
                     মোবাইল নম্বর *
                   </label>
-                  <input 
-                    type="tel" 
+                  <input
+                    type="tel"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="01XXX-XXXXXX"
@@ -203,7 +218,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                     <MapPin size={16} className="text-brand-green" />
                     পূর্ণ ঠিকানা *
                   </label>
-                  <textarea 
+                  <textarea
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     rows={3}
@@ -217,32 +232,28 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                 <div className="space-y-1.5">
                   <label className="font-display font-semibold text-primary-dark block">ডেলিভারি এলাকা *</label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                    
+
                     {/* Inside Dhaka */}
-                    <div 
+                    <div
                       onClick={() => setDeliveryArea('inside')}
-                      className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors ${
-                        deliveryArea === 'inside' ? 'border-brand-green bg-brand-green/5' : 'border-slate-150 bg-white hover:border-slate-200'
-                      }`}
+                      className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors ${deliveryArea === 'inside' ? 'border-brand-green bg-brand-green/5' : 'border-slate-150 bg-white hover:border-slate-200'
+                        }`}
                     >
-                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        deliveryArea === 'inside' ? 'border-brand-green bg-brand-green' : 'border-slate-300 bg-white'
-                      }`}>
+                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${deliveryArea === 'inside' ? 'border-brand-green bg-brand-green' : 'border-slate-300 bg-white'
+                        }`}>
                         {deliveryArea === 'inside' && <div className="w-1.5 h-1.5 rounded-full bg-white"></div>}
                       </div>
                       <span className="font-display text-sm font-semibold text-primary-dark">ঢাকার ভিতরে (৳৬০)</span>
                     </div>
 
                     {/* Outside Dhaka */}
-                    <div 
+                    <div
                       onClick={() => setDeliveryArea('outside')}
-                      className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors ${
-                        deliveryArea === 'outside' ? 'border-brand-green bg-brand-green/5' : 'border-slate-150 bg-white hover:border-slate-200'
-                      }`}
+                      className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors ${deliveryArea === 'outside' ? 'border-brand-green bg-brand-green/5' : 'border-slate-150 bg-white hover:border-slate-200'
+                        }`}
                     >
-                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        deliveryArea === 'outside' ? 'border-brand-green bg-brand-green' : 'border-slate-300 bg-white'
-                      }`}>
+                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${deliveryArea === 'outside' ? 'border-brand-green bg-brand-green' : 'border-slate-300 bg-white'
+                        }`}>
                         {deliveryArea === 'outside' && <div className="w-1.5 h-1.5 rounded-full bg-white"></div>}
                       </div>
                       <span className="font-display text-sm font-semibold text-primary-dark">ঢাকার বাইরে (৳১৩০)</span>
