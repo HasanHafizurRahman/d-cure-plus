@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import WhyChooseUs from './components/WhyChooseUs';
 import ResearcherProfile from './components/ResearcherProfile';
 import DosageGuide from './components/DosageGuide';
+import ProductDetails from './components/ProductDetails';
 import VideoGallery from './components/VideoGallery';
 import CustomerReviews from './components/CustomerReviews';
 import BannerMiddle from './components/BannerMiddle';
@@ -43,6 +44,9 @@ export default function App() {
 
         {/* Directions, Warning and Interactive dosage tracker section */}
         <DosageGuide />
+
+        {/* Detailed specifications: Ingredients, Pharmacology, Indications, Advice */}
+        <ProductDetails />
 
         {/* Video Testimonials Section */}
         <VideoGallery />

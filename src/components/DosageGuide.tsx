@@ -174,20 +174,20 @@ export default function DosageGuide() {
                 <div className="space-y-1">
                   <h4 className="text-lg font-display font-semibold text-primary-dark">সেবন মাত্রা:</h4>
                   <p className="text-sm sm:text-base text-primary-dark/85 font-sans">
-                    ১টি করে ক্যাপসুল প্রতিদিন সকালে এবং রাতে চিকিৎসকের পরামর্শ অনুযায়ী সেব্য।
+                    ১/২ (এক বা দুটি) টি ক্যাপসুল আহারের পর দিনে ২ বার (সকালে ও রাতে) সেবন করবেন।
                   </p>
                 </div>
               </div>
 
               {/* Point 2: Caution */}
               <div className="flex gap-4 items-start group">
-                <div className="w-10 h-10 rounded-full bg-accent-gold/15 flex justify-center items-center border border-accent-gold/30 text-accent-dark-gold shrink-0 mt-0.5 group-hover:scale-105 transition-transform duration-200">
+                <div className="w-10 h-10 rounded-full bg-brand-red/10 flex justify-center items-center border border-brand-red/25 text-brand-red shrink-0 mt-0.5 group-hover:scale-105 transition-transform duration-200">
                   <AlertTriangle size={20} />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="text-lg font-display font-semibold text-primary-dark">সতর্কতা:</h4>
+                  <h4 className="text-lg font-display font-semibold text-primary-dark">সতর্কতা ও নিষেধাজ্ঞা:</h4>
                   <p className="text-sm sm:text-base text-primary-dark/85 font-sans">
-                    আলো ও আর্দ্রতা থেকে দূরে, ঠান্ডা ও শুষ্ক স্থানে রাখুন। প্রতিটি সেবনের পর কনটেইনারের ক্যাপ ভালো করে আটকান। শিশুদের নাগালের বাইরে রাখুন।
+                    <strong className="text-brand-red font-bold">মধু ও দুধের সাথে সেবন সম্পূর্ণ নিষিদ্ধ।</strong> আলো ও আর্দ্রতা থেকে দূরে, ঠান্ডা ও শুষ্ক স্থানে রাখুন। ক্যাপ ভালো করে আটকান। শিশুদের নাগালের বাইরে রাখুন।
                   </p>
                 </div>
               </div>
@@ -195,7 +195,7 @@ export default function DosageGuide() {
 
             {/* Disclaimer block */}
             <div className="p-4 bg-slate-50 border border-slate-200 rounded-lg text-xs text-primary-dark/70 font-sans">
-              * নোট: ইউনানী ঔষধ সম্পূর্ণ পার্শ্বপ্রতিক্রিয়ামুক্ত। তবে কোনো দীর্ঘস্থায়ী সমস্যা থাকলে বা অন্যান্য ঔষধ সেবনের প্রাক্কালে চিকিৎসকের পরামর্শ গ্রহণ করা বাঞ্ছনীয়।
+              * নোট: ইউনানী ঔষধ প্রাকৃতিক ও পার্শ্বপ্রতিক্রিয়ামুক্ত। তবে কোনো দীর্ঘস্থায়ী সমস্যা থাকলে বা অন্যান্য ঔষধ সেবনের প্রাক্কালে চিকিৎসকের পরামর্শ গ্রহণ করা বাঞ্ছনীয়।
             </div>
           </div>
 
