@@ -1,4 +1,5 @@
 import { Shield, Sparkles, MessageCircle, HelpCircle } from 'lucide-react';
+import logoImg from '../assets/cedra.png';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -19,9 +20,9 @@ export default function Footer() {
           <div className="col-span-1 md:col-span-4 flex flex-col items-start space-y-2">
             <div 
               onClick={() => scrollToSection('hero')}
-              className="font-bold text-2xl text-primary-dark tracking-tight cursor-pointer"
+              className="cursor-pointer"
             >
-              D-CURE <span className="text-brand-green ml-1 font-sans">Plus</span>
+              <img src={logoImg} alt="Cedra" className="h-10 w-auto object-contain" />
             </div>
             <p className="text-xs text-primary-dark/65 max-w-xs font-sans text-left">
               প্রাচীন ইউনানী ঐতিহ্যের উপর ভিত্তি করে তৈরি একটি আধুনিক ১০০% নিরাপদ ডায়াবেটিস স্বাস্থ্য সমাধান।

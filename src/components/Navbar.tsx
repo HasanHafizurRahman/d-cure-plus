@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Menu, X, ShoppingCart } from 'lucide-react';
+import logoImg from '../assets/cedra.png';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,10 +20,10 @@ export default function Navbar() {
           {/* Logo */}
           <div 
             onClick={() => scrollToSection('hero')} 
-            className="flex items-center cursor-pointer font-display font-bold text-2xl text-primary-dark tracking-tight"
+            className="flex items-center cursor-pointer"
             id="nav-logo"
           >
-            D-CURE <span className="text-brand-green ml-1 font-sans">Plus</span>
+            <img src={logoImg} alt="Cedra" className="h-10 w-auto object-contain" />
           </div>
 
           {/* Desktop Nav */}
