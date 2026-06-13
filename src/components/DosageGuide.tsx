@@ -21,10 +21,10 @@ export default function DosageGuide() {
   return (
     <section className="py-16 bg-gradient-to-b from-white to-[#f7faf8]">
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         {/* Card Frame wrapping content */}
         <div className="bg-white border border-slate-200 rounded-2xl p-6 md:p-12 shadow-sm relative overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* Decorative faint background element */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#b2f0cc]/10 rounded-full blur-2xl"></div>
 
@@ -32,8 +32,8 @@ export default function DosageGuide() {
           <div className="col-span-1 lg:col-span-6 flex flex-col space-y-6" id="dosage-media-container">
             {/* Curated Wellness Photo representing herbal capsule setup */}
             <div className="relative w-full h-56 sm:h-72 overflow-hidden rounded-xl bg-white border border-slate-200 shadow-xs">
-              <img 
-                src={productShowcaseImg} 
+              <img
+                src={productShowcaseImg}
                 alt="Natural herbal wellness capsule and therapy display"
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-102"
               />
@@ -49,7 +49,7 @@ export default function DosageGuide() {
                   <span className="w-2.5 h-2.5 bg-brand-green rounded-full"></span>
                   আজকের ডোজ ট্র্যাকার (ডায়াবেটিস নিয়ন্ত্রণ)
                 </h4>
-                <button 
+                <button
                   onClick={handleReset}
                   className="p-1 px-2.5 rounded-md hover:bg-slate-200 text-primary-dark/70 text-xs font-display flex items-center gap-1.5 cursor-pointer bg-white border border-slate-200 transition-colors"
                 >
@@ -84,7 +84,7 @@ export default function DosageGuide() {
                         strokeLinecap="round"
                       />
                     </svg>
-                    
+
                     {/* Inner Indicator showing Percent/Status */}
                     <div className="absolute flex flex-col items-center justify-center font-display">
                       <span className="text-xl font-bold text-primary-dark text-center">{progressPercent}%</span>
@@ -92,7 +92,7 @@ export default function DosageGuide() {
                     </div>
 
                     {/* Gold needle indicator accent */}
-                    <div 
+                    <div
                       className="absolute w-2 h-14 bottom-14 origin-bottom transition-all duration-500 ease-out"
                       style={{ transform: `rotate(${(progressPercent * 1.8) - 90}deg)` }}
                     >
@@ -105,36 +105,32 @@ export default function DosageGuide() {
                 <div className="sm:col-span-8 flex flex-col space-y-3 font-display">
                   <button
                     onClick={() => setMorningTaken(!morningTaken)}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg border font-semibold text-sm transition-all duration-200 cursor-pointer ${
-                      morningTaken 
-                        ? 'bg-brand-green/10 border-brand-green text-brand-green' 
-                        : 'bg-white border-slate-200 text-primary-dark hover:border-slate-300'
-                    }`}
+                    className={`w-full flex items-center justify-between p-3 rounded-lg border font-semibold text-sm transition-all duration-200 cursor-pointer ${morningTaken
+                      ? 'bg-brand-green/10 border-brand-green text-brand-green'
+                      : 'bg-white border-slate-200 text-primary-dark hover:border-slate-300'
+                      }`}
                   >
                     <span className="flex items-center gap-2">
-                       ☀️ সকালের ডোজ (খাবারের ৩০মি: পূর্বে)
+                      ☀️ সকালের ডোজ
                     </span>
-                    <span className={`w-5 h-5 rounded-full flex items-center justify-center border transition-colors ${
-                      morningTaken ? 'bg-brand-green border-brand-green text-white' : 'border-slate-300 bg-white'
-                    }`}>
+                    <span className={`w-5 h-5 rounded-full flex items-center justify-center border transition-colors ${morningTaken ? 'bg-brand-green border-brand-green text-white' : 'border-slate-300 bg-white'
+                      }`}>
                       {morningTaken && <Check size={12} className="stroke-[3]" />}
                     </span>
                   </button>
 
                   <button
                     onClick={() => setNightTaken(!nightTaken)}
-                    className={`w-full flex items-center justify-between p-3 rounded-lg border font-semibold text-sm transition-all duration-200 cursor-pointer ${
-                      nightTaken 
-                        ? 'bg-brand-green/10 border-brand-green text-brand-green' 
-                        : 'bg-white border-slate-200 text-primary-dark hover:border-slate-300'
-                    }`}
+                    className={`w-full flex items-center justify-between p-3 rounded-lg border font-semibold text-sm transition-all duration-200 cursor-pointer ${nightTaken
+                      ? 'bg-brand-green/10 border-brand-green text-brand-green'
+                      : 'bg-white border-slate-200 text-primary-dark hover:border-slate-300'
+                      }`}
                   >
                     <span className="flex items-center gap-2">
-                      🌙 রাতের ডোজ (খাবারের ৩০মি: পূর্বে)
+                      🌙 রাতের ডোজ
                     </span>
-                    <span className={`w-5 h-5 rounded-full flex items-center justify-center border transition-colors ${
-                      nightTaken ? 'bg-brand-green border-brand-green text-white' : 'border-slate-300 bg-white'
-                    }`}>
+                    <span className={`w-5 h-5 rounded-full flex items-center justify-center border transition-colors ${nightTaken ? 'bg-brand-green border-brand-green text-white' : 'border-slate-300 bg-white'
+                      }`}>
                       {nightTaken && <Check size={12} className="stroke-[3]" />}
                     </span>
                   </button>
@@ -166,7 +162,7 @@ export default function DosageGuide() {
                 নির্দেশনা ও সেবনবিধি
               </h3>
             </div>
-            
+
             <div className="w-12 h-1 bg-brand-green rounded-full"></div>
 
             <div className="space-y-6 py-2">
@@ -178,7 +174,7 @@ export default function DosageGuide() {
                 <div className="space-y-1">
                   <h4 className="text-lg font-display font-semibold text-primary-dark">সেবন মাত্রা:</h4>
                   <p className="text-sm sm:text-base text-primary-dark/85 font-sans">
-                    ১টি করে ক্যাপসুল প্রতিদিন সকালে এবং রাতে খাবারের ৩০ মিনিট আগে সেব্য অথবা চিকিৎসকের পরামর্শ অনুযায়ী সেব্য।
+                    ১টি করে ক্যাপসুল প্রতিদিন সকালে এবং রাতে চিকিৎসকের পরামর্শ অনুযায়ী সেব্য।
                   </p>
                 </div>
               </div>
