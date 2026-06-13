@@ -1,5 +1,7 @@
+export type PackageId = 'single' | 'double' | 'triple';
+
 export interface PackageOption {
-  id: 'single' | 'double';
+  id: PackageId;
   title: string;
   capsules: string;
   price: number;

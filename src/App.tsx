@@ -12,10 +12,10 @@ import PricingOffers from './components/PricingOffers';
 import CheckoutForm from './components/CheckoutForm';
 import OrderSuccessModal from './components/OrderSuccessModal';
 import Footer from './components/Footer';
-import { OrderDetails } from './types';
+import { OrderDetails, PackageId } from './types';
 
 export default function App() {
-  const [selectedPkgId, setSelectedPkgId] = useState<'single' | 'double'>('double');
+  const [selectedPkgId, setSelectedPkgId] = useState<PackageId>('triple');
   const [activeOrder, setActiveOrder] = useState<OrderDetails | null>(null);
 
   const handleSubmitOrder = (order: OrderDetails) => {

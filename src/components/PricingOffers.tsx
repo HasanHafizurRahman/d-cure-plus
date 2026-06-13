@@ -1,17 +1,17 @@
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { packageOptions } from '../data';
-import { PackageOption } from '../types';
+import { PackageOption, PackageId } from '../types';
 import { motion } from 'motion/react';
 import bottleImg from '../assets/bottle.png';
 
 interface PricingOffersProps {
-  onSelectPackage: (pkgId: 'single' | 'double') => void;
-  selectedPkgId: string;
+  onSelectPackage: (pkgId: PackageId) => void;
+  selectedPkgId: PackageId;
 }
 
 export default function PricingOffers({ onSelectPackage, selectedPkgId }: PricingOffersProps) {
   
-  const handleSelect = (pkgId: 'single' | 'double') => {
+  const handleSelect = (pkgId: PackageId) => {
     onSelectPackage(pkgId);
     const el = document.getElementById('checkout');
     if (el) {
@@ -35,7 +35,7 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-stretch">
           
           {packageOptions.map((pkg) => {
             const isSelected = selectedPkgId === pkg.id;
@@ -46,7 +46,7 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 whileHover={{ scale: 1.02 }}
-                onClick={() => handleSelect(pkg.id as 'single' | 'double')}
+                onClick={() => handleSelect(pkg.id as PackageId)}
                 className={`relative bg-white border rounded-2xl p-6 md:p-8 flex flex-col justify-between cursor-pointer transition-all duration-300 shadow-xs hover:shadow-lg ${
                   pkg.isPopular 
                     ? 'border-accent-gold ring-2 ring-accent-gold/20' 
@@ -68,7 +68,7 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
                   
                   {/* Product Bottles Graphic */}
                   <div className="flex justify-center items-center py-4">
-                    {pkg.id === 'single' ? (
+                    {pkg.id === 'single' && (
                       /* 1 Real Bottle Image */
                       <div className="relative h-36 flex items-center justify-center">
                         <img 
@@ -77,7 +77,8 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
                           className="h-32 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                    ) : (
+                    )}
+                    {pkg.id === 'double' && (
                       /* 2 Real Bottle Images representing double deal */
                       <div className="relative h-36 flex items-end justify-center pb-1 select-none">
                         {/* Left/Back Bottle */}
@@ -90,6 +91,29 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
                         <img 
                           src={bottleImg} 
                           alt="D-CURE Plus Bottle Front" 
+                          className="h-32 w-auto object-contain relative z-10 drop-shadow-lg hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    )}
+                    {pkg.id === 'triple' && (
+                      /* 3 Real Bottle Images representing triple/full course deal */
+                      <div className="relative h-36 flex items-end justify-center pb-1 select-none">
+                        {/* Left/Back Bottle */}
+                        <img 
+                          src={bottleImg} 
+                          alt="D-CURE Plus Bottle Left" 
+                          className="h-26 w-auto object-contain transform -rotate-12 translate-x-8 opacity-80 filter blur-[0.3px] drop-shadow-sm"
+                        />
+                        {/* Right/Back Bottle */}
+                        <img 
+                          src={bottleImg} 
+                          alt="D-CURE Plus Bottle Right" 
+                          className="h-26 w-auto object-contain transform rotate-12 -translate-x-8 opacity-80 filter blur-[0.3px] drop-shadow-sm"
+                        />
+                        {/* Center/Front Bottle */}
+                        <img 
+                          src={bottleImg} 
+                          alt="D-CURE Plus Bottle Center" 
                           className="h-32 w-auto object-contain relative z-10 drop-shadow-lg hover:scale-105 transition-transform duration-300"
                         />
                       </div>
@@ -125,7 +149,7 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
                 {/* Bottom Order Button Trigger */}
                 <div className="mt-8 pt-4 border-t border-slate-100">
                   <button
-                    onClick={() => handleSelect(pkg.id as 'single' | 'double')}
+                    onClick={() => handleSelect(pkg.id as PackageId)}
                     className={`w-full flex items-center justify-center py-3 rounded-md font-display font-bold text-sm transition-all duration-200 cursor-pointer ${
                       pkg.isPopular 
                         ? 'bg-primary-dark hover:bg-primary-medium text-white shadow-md' 

@@ -14,10 +14,20 @@ export const packageOptions: PackageOption[] = [
     id: 'double',
     title: '২টি বক্স (২৪০ ক্যাপসুল)',
     capsules: '২৪০টি ক্যাপসুল',
-    price: 2000,
+    price: 2200,
     originalPrice: 2400,
-    savings: 400,
-    label: 'সেরা অফার',
+    savings: 200,
+    label: 'বিশেষ অফার',
+    isPopular: false
+  },
+  {
+    id: 'triple',
+    title: '৩টি বক্স (৩৬০ ক্যাপসুল - ফুল কোর্স)',
+    capsules: '৩৬০টি ক্যাপসুল (ফুল কোর্স)',
+    price: 3000,
+    originalPrice: 3600,
+    savings: 600,
+    label: 'সেরা অফার (ফুল কোর্স)',
     isPopular: true
   }
 ];

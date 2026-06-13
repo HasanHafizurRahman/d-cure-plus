@@ -1,12 +1,12 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { ShoppingCart, Smartphone, User, MapPin, CheckCircle, Package, ArrowRight, ShieldCheck, AlertCircle } from 'lucide-react';
 import { packageOptions } from '../data';
-import { OrderDetails } from '../types';
+import { OrderDetails, PackageId } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface CheckoutFormProps {
-  selectedPkgId: 'single' | 'double';
-  setSelectedPkgId: (id: 'single' | 'double') => void;
+  selectedPkgId: PackageId;
+  setSelectedPkgId: (id: PackageId) => void;
   onSubmitOrder: (order: OrderDetails) => void;
 }
 
@@ -18,7 +18,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
   const [errorMsg, setErrorMsg] = useState('');
 
   // Find selected package details
-  const currentPackage = packageOptions.find(p => p.id === selectedPkgId) || packageOptions[1];
+  const currentPackage = packageOptions.find(p => p.id === selectedPkgId) || packageOptions[2];
 
   // Delivery configuration
   const deliveryCharge = deliveryArea === 'inside' ? 60 : 120;
@@ -120,7 +120,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                   return (
                     <div 
                       key={pkg.id}
-                      onClick={() => setSelectedPkgId(pkg.id as 'single' | 'double')}
+                      onClick={() => setSelectedPkgId(pkg.id as PackageId)}
                       className={`relative flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer select-none ${
                         isChecked 
                           ? 'border-brand-green bg-brand-green/5' 
