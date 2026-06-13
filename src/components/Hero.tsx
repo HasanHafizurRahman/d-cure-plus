@@ -1,6 +1,6 @@
 import { ArrowRight, ShoppingCart, ShieldCheck } from 'lucide-react';
 import { motion } from 'motion/react';
-import productShowcaseImg from '../assets/product_showcase.jpg';
+import productShowcaseImg from '../assets/product_showcase.png';
 import bottleImg from '../assets/bottle.png';
 
 export default function Hero() {

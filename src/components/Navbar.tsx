@@ -43,6 +43,13 @@ export default function Navbar() {
               উপকারিতা
             </button>
             <button 
+              onClick={() => scrollToSection('researcher')} 
+              className="text-primary-dark hover:text-brand-green transition-colors font-medium text-sm cursor-pointer"
+              id="nav-researcher"
+            >
+              গবেষক পরিচিতি
+            </button>
+            <button 
               onClick={() => scrollToSection('video')} 
               className="text-primary-dark hover:text-brand-green transition-colors font-medium text-sm cursor-pointer"
               id="nav-video"
@@ -100,6 +107,13 @@ export default function Navbar() {
               id="mobile-nav-benefits"
             >
               উপকারিতা
+            </button>
+            <button
+              onClick={() => scrollToSection('researcher')}
+              className="block w-full text-left px-3 py-2.5 rounded-md text-base font-medium text-primary-dark hover:bg-white hover:text-brand-green transition-colors cursor-pointer"
+              id="mobile-nav-researcher"
+            >
+              গবেষক পরিচিতি
             </button>
             <button
               onClick={() => scrollToSection('video')}

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CheckCircle2, AlertTriangle, Check, RefreshCw, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import productShowcaseImg from '../assets/product_showcase.jpg';
+import productShowcaseImg from '../assets/product_showcase.png';
 
 export default function DosageGuide() {
   // Dosage state for interactive dosage tracker
