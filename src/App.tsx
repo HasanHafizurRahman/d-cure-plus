@@ -57,14 +57,14 @@ export default function App() {
         <FAQSection />
 
         {/* Pricing Selection component */}
-        <PricingOffers 
-          onSelectPackage={setSelectedPkgId} 
-          selectedPkgId={selectedPkgId} 
+        <PricingOffers
+          onSelectPackage={setSelectedPkgId}
+          selectedPkgId={selectedPkgId}
         />
 
         {/* Direct Order booking Form */}
-        <CheckoutForm 
-          selectedPkgId={selectedPkgId} 
+        <CheckoutForm
+          selectedPkgId={selectedPkgId}
           setSelectedPkgId={setSelectedPkgId}
           onSubmitOrder={handleSubmitOrder}
         />
@@ -75,9 +75,9 @@ export default function App() {
 
       {/* Successful Checkout invoice / tracking modal */}
       {activeOrder && (
-        <OrderSuccessModal 
-          order={activeOrder} 
-          onClose={handleCloseSuccessModal} 
+        <OrderSuccessModal
+          order={activeOrder}
+          onClose={handleCloseSuccessModal}
         />
       )}
     </div>
