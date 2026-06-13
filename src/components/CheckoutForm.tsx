@@ -21,7 +21,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
   const currentPackage = packageOptions.find(p => p.id === selectedPkgId) || packageOptions[2];
 
   // Delivery configuration
-  const deliveryCharge = deliveryArea === 'inside' ? 60 : 120;
+  const deliveryCharge = deliveryArea === 'inside' ? 60 : 130;
   const totalCost = currentPackage.price + deliveryCharge;
 
   // Clear errors when typing
@@ -245,7 +245,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                       }`}>
                         {deliveryArea === 'outside' && <div className="w-1.5 h-1.5 rounded-full bg-white"></div>}
                       </div>
-                      <span className="font-display text-sm font-semibold text-primary-dark">ঢাকার বাইরে (৳১২০)</span>
+                      <span className="font-display text-sm font-semibold text-primary-dark">ঢাকার বাইরে (৳১৩০)</span>
                     </div>
 
                   </div>
