@@ -151,7 +151,7 @@ export default function Hero() {
                 <div className="flex-1 flex flex-col text-left font-display">
                   <h4 className="text-sm font-bold text-primary-dark">D-CURE Plus (Habbe ziabit)</h4>
                   <p className="text-[11px] text-primary-dark/80 font-sans mt-0.5 leading-relaxed">১টি বক্স (১২০ ক্যাপসুল) - ডায়াবেটিস চিকিৎসায় অব্যর্থ ইউনানী ভেষজ ঔষধ।</p>
-                  <p className="text-[10px] font-bold text-brand-green mt-1">প্রস্তুতকারক: ইউনানী ল্যাবরেটরিজ</p>
+                  <p className="text-[10px] font-bold text-brand-green mt-1">প্রস্তুতকারক: এমপেক্স ল্যাবরেটরিজ লিমিটেড</p>
                 </div>
               </div>
 

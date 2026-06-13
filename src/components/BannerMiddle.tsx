@@ -10,10 +10,10 @@ export default function BannerMiddle() {
 
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
+
           {/* Left Column: Visual Grid of Laboratory Certificates */}
           <div className="col-span-1 lg:col-span-5 grid grid-cols-2 gap-4" id="cert-badge-grid">
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.03 }}
               className="bg-white/10 p-5 rounded-lg border border-white/10 flex flex-col items-center text-center space-y-2 backdrop-blur-xs"
             >
@@ -22,7 +22,7 @@ export default function BannerMiddle() {
               <p className="text-[11px] text-white/80 font-sans">১০০% ভেষজ উপাদান</p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.03 }}
               className="bg-white/10 p-5 rounded-lg border border-white/10 flex flex-col items-center text-center space-y-2 backdrop-blur-xs"
             >
@@ -31,7 +31,7 @@ export default function BannerMiddle() {
               <p className="text-[11px] text-white/80 font-sans">গ্লুকোজ লেভেল স্বাভাবিক রাখে</p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.03 }}
               className="bg-white/10 p-5 rounded-lg border border-white/10 flex flex-col items-center text-center space-y-2 backdrop-blur-xs"
             >
@@ -40,13 +40,13 @@ export default function BannerMiddle() {
               <p className="text-[11px] text-white/80 font-sans">রাসায়নিক উপাদানমুক্ত</p>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.03 }}
               className="bg-white/10 p-5 rounded-lg border border-white/10 flex flex-col items-center text-center space-y-2 backdrop-blur-xs"
             >
               <RefreshCcw className="text-accent-gold w-8 h-8" />
-              <h4 className="text-base font-display font-semibold">৪০০ টাকা সাশ্রয়ী অফার</h4>
-              <p className="text-[11px] text-white/80 font-sans">২টি বক্সে সেরা ছাড়</p>
+              <h4 className="text-base font-display font-semibold">৬০০ টাকা সাশ্রয়ী অফার</h4>
+              <p className="text-[11px] text-white/80 font-sans">৩টি বক্সে সেরা ছাড়</p>
             </motion.div>
           </div>
 
