@@ -79,6 +79,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
     // Send order details to WhatsApp
     const message = `*নতুন অর্ডার তথ্য:*
 --------------------
+*পণ্য:* D-Cure Plus
 *অর্ডার আইডি:* ${generatedId}
 *প্যাকেজ:* ${currentPackage.title}
 *প্যাকেজ মূল্য:* ৳${currentPackage.price}
@@ -90,8 +91,8 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
 *সর্বমোট মূল্য:* ৳${totalCost}
 --------------------`;
 
-    const whatsappUrl = `https://wa.me/8801858643922?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    const whatsappUrl = `https://wa.me/8801776249691?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 
     // Reset local state fields
     setCustomerName('');
@@ -139,8 +140,8 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                       key={pkg.id}
                       onClick={() => setSelectedPkgId(pkg.id as PackageId)}
                       className={`relative flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer select-none ${isChecked
-                          ? 'border-brand-green bg-brand-green/5'
-                          : 'border-slate-200 bg-white hover:border-slate-300'
+                        ? 'border-brand-green bg-brand-green/5'
+                        : 'border-slate-200 bg-white hover:border-slate-300'
                         }`}
                       id={`radio-${pkg.id}`}
                     >
