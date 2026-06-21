@@ -43,7 +43,7 @@ export default function App() {
         <ResearcherProfile />
 
         {/* Directions, Warning and Interactive dosage tracker section */}
-        <DosageGuide />
+        {/* <DosageGuide /> */}
 
         {/* Detailed specifications: Ingredients, Pharmacology, Indications, Advice */}
         <ProductDetails />
@@ -55,7 +55,7 @@ export default function App() {
         <CustomerReviews />
 
         {/* Quality, certification & GMP assurances banner */}
-        <BannerMiddle />
+        {/* <BannerMiddle /> */}
 
         {/* FAQs Accordion segment */}
         <FAQSection />
