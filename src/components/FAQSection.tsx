@@ -11,7 +11,7 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-[#fcfdfd] border-t border-slate-200">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-[#fdfbe9]/60 via-[#f3f9f4] to-white border-t border-slate-200">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
         
         {/* Header Titles */}

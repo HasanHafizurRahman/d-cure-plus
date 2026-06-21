@@ -3,7 +3,7 @@ import doctorImg from '../assets/doctor.png';
 
 export default function ResearcherProfile() {
   return (
-    <section id="researcher" className="py-16 md:py-24 bg-[#f2f5f3]">
+    <section id="researcher" className="py-16 md:py-24 bg-gradient-to-br from-[#e4f3e6] via-[#edf5ef] to-[#d8ebd9]">
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 

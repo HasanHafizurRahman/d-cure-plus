@@ -12,7 +12,7 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative overflow-hidden bg-[#fafcfa] py-16 md:py-28">
+    <section id="hero" className="relative overflow-hidden bg-gradient-to-br from-[#def0df] via-[#f5fbf7] to-[#fbf8e8] py-16 md:py-28">
       {/* Grid / dot matrix overlay */}
       <div className="absolute inset-0 bg-[radial-gradient(#2d8a2d_0.8px,transparent_0.8px)] [background-size:16px_16px] opacity-10 -z-10"></div>
 

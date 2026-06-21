@@ -42,7 +42,7 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section id="benefits" className="py-20 md:py-28 bg-white relative overflow-hidden">
+    <section id="benefits" className="py-20 md:py-28 bg-gradient-to-br from-[#fbf8e8] via-white to-[#e4f3e6] relative overflow-hidden">
       {/* Subtle background decoration */}
       <div className="absolute top-1/2 left-0 w-64 h-64 bg-brand-green/3 rounded-full blur-3xl -z-10 pointer-events-none"></div>
       <div className="absolute top-1/3 right-0 w-64 h-64 bg-accent-gold/3 rounded-full blur-3xl -z-10 pointer-events-none"></div>

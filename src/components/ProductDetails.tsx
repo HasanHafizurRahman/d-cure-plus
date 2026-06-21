@@ -17,7 +17,7 @@ import {
 
 export default function ProductDetails() {
   return (
-    <section id="specifications" className="py-20 bg-gradient-to-b from-[#f7faf8] to-white relative overflow-hidden">
+    <section id="specifications" className="py-20 bg-gradient-to-br from-[#f2f8f3] via-white to-[#fbf8e8]/50 relative overflow-hidden">
       {/* Decorative background gradients */}
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-brand-green/3 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent-gold/4 rounded-full blur-3xl pointer-events-none"></div>
