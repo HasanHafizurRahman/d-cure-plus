@@ -1,25 +1,125 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { ShoppingCart, Smartphone, User, MapPin, CheckCircle, Package, ArrowRight, ShieldCheck, AlertCircle, MessageCircle } from 'lucide-react';
-import { packageOptions } from '../data';
-import { OrderDetails, PackageId } from '../types';
+import { OrderDetails, PackageId, PackageOption } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface CheckoutFormProps {
   selectedPkgId: PackageId;
   setSelectedPkgId: (id: PackageId) => void;
   onSubmitOrder: (order: OrderDetails) => void;
+  packages: PackageOption[];
 }
 
-export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmitOrder }: CheckoutFormProps) {
+import { District, Thana } from '../types';
+
+export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmitOrder, packages }: CheckoutFormProps) {
   const [customerName, setCustomerName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
   const [deliveryArea, setDeliveryArea] = useState<'inside' | 'outside'>('inside');
   const [errorMsg, setErrorMsg] = useState('');
-  const [pendingOrder, setPendingOrder] = useState<OrderDetails | null>(null);
+
+  const [districts, setDistricts] = useState<(District & { id: number })[]>([]);
+  const [thanaMap, setThanaMap] = useState<Record<string, Thana & { globalId: number }>>({});
+  const [selectedDistrictCode, setSelectedDistrictCode] = useState<string>('');
+  const [selectedThanaCode, setSelectedThanaCode] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const loadDistrictsAndThanas = async () => {
+      try {
+        const API_BASE_URL = import.meta.env.DEV ? '' : 'http://118.179.144.13:8005';
+        const distRes = await fetch(`${API_BASE_URL}/api/public/districts`);
+        if (distRes.ok) {
+          const distData = await distRes.json();
+          if (distData.success && Array.isArray(distData.items)) {
+            const mappedDistricts = distData.items.map((item: any, idx: number) => ({
+              id: idx + 1, // 1-based index is the database ID
+              name: item.name,
+              name_bn: item.name_bn,
+              code: item.code,
+              encrypted_id: item.encrypted_id,
+            }));
+            setDistricts(mappedDistricts);
+
+            // Fetch thanas for all districts in parallel
+            const promises = mappedDistricts.map(async (dist: any) => {
+              try {
+                const thanaRes = await fetch(`${API_BASE_URL}/api/public/thanas/district/${dist.code}`);
+                if (thanaRes.ok) {
+                  const thanaData = await thanaRes.json();
+                  return {
+                    districtId: dist.id,
+                    items: thanaData.items || [],
+                  };
+                }
+              } catch (e) {
+                console.error(`Failed to fetch thanas for district ${dist.code}:`, e);
+              }
+              return { districtId: dist.id, items: [] };
+            });
+
+            const results = await Promise.all(promises);
+            results.sort((a, b) => a.districtId - b.districtId);
+
+            let globalCounter = 0;
+            const newThanaMap: Record<string, any> = {};
+            results.forEach((res) => {
+              res.items.forEach((thana: any) => {
+                globalCounter++;
+                newThanaMap[thana.code] = {
+                  globalId: globalCounter,
+                  district_id: res.districtId,
+                  name: thana.name,
+                  name_bn: thana.name_bn,
+                  code: thana.code,
+                  encrypted_id: thana.encrypted_id,
+                  inside_dhaka: thana.inside_dhaka,
+                };
+              });
+            });
+            setThanaMap(newThanaMap);
+          }
+        }
+      } catch (err) {
+        console.error('Error loading districts and thanas:', err);
+      }
+    };
+
+    loadDistrictsAndThanas();
+  }, []);
+
+  const handleDistrictChange = (code: string) => {
+    setSelectedDistrictCode(code);
+    setSelectedThanaCode('');
+    
+    // Automatically set delivery area: code 3001 is Dhaka
+    if (code === '3001') {
+      setDeliveryArea('inside');
+    } else {
+      setDeliveryArea('outside');
+    }
+  };
+
+  const handleThanaChange = (code: string) => {
+    setSelectedThanaCode(code);
+    if (code) {
+      const thana = thanaMap[code];
+      if (thana) {
+        const isInside = thana.inside_dhaka === true || thana.inside_dhaka === 1 || thana.inside_dhaka === '1' || String(thana.inside_dhaka).toLowerCase() === 'true';
+        setDeliveryArea(isInside ? 'inside' : 'outside');
+      }
+    } else {
+      if (selectedDistrictCode === '3001') {
+        setDeliveryArea('inside');
+      } else {
+        setDeliveryArea('outside');
+      }
+    }
+  };
 
   // Find selected package details
-  const currentPackage = packageOptions.find(p => p.id === selectedPkgId) || packageOptions[2];
+  const currentPackage = packages.find(p => p.id === selectedPkgId) || packages[0];
 
   // Delivery configuration
   const deliveryCharge = deliveryArea === 'inside' ? 60 : 130;
@@ -28,9 +128,9 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
   // Clear errors when typing
   useEffect(() => {
     if (errorMsg) setErrorMsg('');
-  }, [customerName, phoneNumber, address, selectedPkgId, deliveryArea]);
+  }, [customerName, phoneNumber, address, selectedPkgId, deliveryArea, selectedDistrictCode, selectedThanaCode]);
 
-  const handleConfirmOrder = (e: FormEvent) => {
+  const handleConfirmOrder = async (e: FormEvent) => {
     e.preventDefault();
 
     // Check simple validations
@@ -51,85 +151,70 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
       return;
     }
 
+    if (!selectedDistrictCode) {
+      setErrorMsg('দুঃখিত, অনুগ্রহ করে আপনার জেলা নির্বাচন করুন।');
+      return;
+    }
+
+    if (!selectedThanaCode) {
+      setErrorMsg('দুঃখিত, অনুগ্রহ করে আপনার উপজেলা বা থানা নির্বাচন করুন।');
+      return;
+    }
+
     if (!address.trim()) {
       setErrorMsg('দুঃখিত, কুরিয়ার ডেলিভারির জন্য আপনার পূর্ণ ঠিকানাটি লিখুন।');
       return;
     }
 
-    // Generate arbitrary beautiful order ID
-    const generatedId = `DC-${Math.floor(100000 + Math.random() * 900000)}`;
-    const today = new Date();
-    const formattedDate = `${today.getDate()} June ${today.getFullYear()}`;
+    const selectedDistrict = districts.find(d => d.code === selectedDistrictCode);
+    const selectedThana = thanaMap[selectedThanaCode];
 
-    const orderPayload: OrderDetails = {
-      id: generatedId,
-      packageName: currentPackage.title,
-      packagePrice: currentPackage.price,
-      customerName,
-      phoneNumber: cleanPhone,
-      address,
-      deliveryArea,
-      deliveryCharge,
-      totalCost,
-      orderDate: formattedDate,
-      status: 'Processing'
+    const postBody = {
+      customer_name: customerName,
+      customer_phone: cleanPhone,
+      alternative_phone: "",
+      shipping_address: address,
+      district_id: selectedDistrict ? selectedDistrict.id : null,
+      thana_id: selectedThana ? selectedThana.globalId : null,
+      product_id: Number(currentPackage.id),
+      quantity: 1,
+      payment_method: "cash on delivery",
+      notes: "Order placed from landing page"
     };
 
-    setPendingOrder(orderPayload);
+    try {
+      setIsSubmitting(true);
+      const API_BASE_URL = import.meta.env.DEV ? '' : 'http://118.179.144.13:8005';
+      const response = await fetch(`${API_BASE_URL}/api/public/orders`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(postBody)
+      });
 
-    // Send order details to WhatsApp
-    const message = `*নতুন অর্ডার তথ্য:*
---------------------
-*পণ্য:* D-Cure Plus
-*অর্ডার আইডি:* ${generatedId}
-*প্যাকেজ:* ${currentPackage.title}
-*প্যাকেজ মূল্য:* ৳${currentPackage.price}
-*গ্রাহকের নাম:* ${customerName}
-*মোবাইল নম্বর:* ${cleanPhone}
-*ঠিকানা:* ${address}
-*ডেলিভারি এলাকা:* ${deliveryArea === 'inside' ? 'ঢাকার ভিতরে' : 'ঢাকার বাইরে'}
-*ডেলিভারি চার্জ:* ৳${deliveryCharge}
-*সর্বমোট মূল্য:* ৳${totalCost}
---------------------`;
+      const resData = await response.json();
 
-    const whatsappUrl = `https://wa.me/8801776249691?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-  };
+      if (response.ok && resData.success) {
+        // Directly trigger successful modal callback
+        onSubmitOrder(resData.item);
 
-  const handleVerifySent = () => {
-    if (pendingOrder) {
-      onSubmitOrder(pendingOrder);
-      setPendingOrder(null);
-      // Reset local state fields
-      setCustomerName('');
-      setPhoneNumber('');
-      setAddress('');
+        // Reset local state fields
+        setCustomerName('');
+        setPhoneNumber('');
+        setAddress('');
+        setSelectedDistrictCode('');
+        setSelectedThanaCode('');
+      } else {
+        setErrorMsg(resData.message || 'দুঃখিত, অর্ডার প্রসেস করতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
+      }
+    } catch (err) {
+      console.error('Order submission error:', err);
+      setErrorMsg('দুঃখিত, নেটওয়ার্ক ত্রুটির কারণে অর্ডারটি পাঠানো যায়নি। অনুগ্রহ করে ইন্টারনেট সংযোগ চেক করুন।');
+    } finally {
+      setIsSubmitting(false);
     }
-  };
-
-  const handleResend = () => {
-    if (pendingOrder) {
-      const message = `*নতুন অর্ডার তথ্য:*
---------------------
-*পণ্য:* D-Cure Plus
-*অর্ডার আইডি:* ${pendingOrder.id}
-*প্যাকেজ:* ${pendingOrder.packageName}
-*প্যাকেজ মূল্য:* ৳${pendingOrder.packagePrice}
-*গ্রাহকের নাম:* ${pendingOrder.customerName}
-*মোবাইল নম্বর:* ${pendingOrder.phoneNumber}
-*ঠিকানা:* ${pendingOrder.address}
-*ডেলিভারি এলাকা:* ${pendingOrder.deliveryArea === 'inside' ? 'ঢাকার ভিতরে' : 'ঢাকার বাইরে'}
-*ডেলিভারি চার্জ:* ৳${pendingOrder.deliveryCharge}
-*সর্বমোট মূল্য:* ৳${pendingOrder.totalCost}
---------------------`;
-
-      const whatsappUrl = `https://wa.me/8801776249691?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    }
-  };
-
-  const handleCancel = () => {
-    setPendingOrder(null);
   };
 
   return (
@@ -155,88 +240,6 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
             <span>১০০% ক্যাশ অন ডেলিভারি (পণ্য হাতে বুঝে পেয়ে টাকা পরিশোধ করবেন)</span>
           </div>
 
-          {pendingOrder ? (
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="p-6 md:p-10 text-center space-y-6"
-            >
-              {/* Pulsing WhatsApp Indicator */}
-              <div className="flex justify-center">
-                <div className="w-16 h-16 rounded-full bg-brand-green/10 flex justify-center items-center border border-brand-green/20 relative">
-                  <div className="absolute inset-0 rounded-full bg-brand-green/5 animate-ping"></div>
-                  <MessageCircle size={32} className="text-brand-green" />
-                </div>
-              </div>
-
-              {/* Title details */}
-              <div className="space-y-2 max-w-md mx-auto">
-                <h3 className="text-xl sm:text-2xl font-display font-bold text-primary-dark">
-                  অর্ডার সম্পন্ন করতে মেসেজটি পাঠান
-                </h3>
-                <p className="text-sm sm:text-base text-primary-dark/80 font-sans leading-relaxed">
-                  আমরা আপনাকে হোয়াটসঅ্যাপ-এ রিডাইরেক্ট করেছি। অর্ডারটি চূড়ান্ত করতে অনুগ্রহ করে হোয়াটসঅ্যাপের চ্যাটে গিয়ে **বার্তাটি পাঠান**। পাঠানো হয়ে গেলে নিচের কনফার্ম বাটনে ক্লিক করুন।
-                </p>
-              </div>
-
-              {/* Order summary box */}
-              <div className="bg-[#f7faf8] p-5 rounded-xl border border-[#e0e6e2] max-w-md mx-auto text-left font-display space-y-2.5 text-sm shadow-xs">
-                <div className="flex justify-between font-bold border-b border-[#e0e6e2] pb-2 mb-2 text-primary-dark text-xs sm:text-sm">
-                  <span>অর্ডার বিবরণ</span>
-                  <span className="text-brand-green">আইডি: {pendingOrder.id}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-primary-dark/75">পণ্য:</span>
-                  <span className="font-semibold text-primary-dark">D-Cure Plus</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-primary-dark/75">প্যাকেজ:</span>
-                  <span className="font-semibold text-primary-dark">{pendingOrder.packageName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-primary-dark/75">নাম:</span>
-                  <span className="font-semibold text-primary-dark">{pendingOrder.customerName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-primary-dark/75">মোবাইল:</span>
-                  <span className="font-semibold text-primary-dark">{pendingOrder.phoneNumber}</span>
-                </div>
-                <div className="flex justify-between border-t border-[#e0e6e2] pt-2.5 mt-2.5 text-base font-bold text-primary-dark">
-                  <span>সর্বমোট মূল্য:</span>
-                  <span className="text-brand-green">৳{pendingOrder.totalCost}</span>
-                </div>
-              </div>
-
-              {/* Buttons actions */}
-              <div className="flex flex-col gap-3 max-w-md mx-auto">
-                <button
-                  type="button"
-                  onClick={handleVerifySent}
-                  className="w-full flex items-center justify-center bg-brand-green hover:bg-[#125136] text-white py-3.5 rounded-xl font-display font-bold text-base transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg hover:scale-101 active:scale-100 gap-2"
-                >
-                  <CheckCircle size={18} />
-                  হ্যাঁ, আমি মেসেজটি পাঠিয়েছি
-                </button>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={handleResend}
-                    className="w-full flex items-center justify-center bg-white border border-slate-350 hover:bg-slate-50 text-primary-dark py-2.5 rounded-xl font-display font-semibold text-xs transition-all duration-200 cursor-pointer shadow-xs"
-                  >
-                    আবার লিংক ওপেন করুন
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCancel}
-                    className="w-full flex items-center justify-center bg-white border border-brand-red/20 hover:bg-brand-red/5 text-brand-red py-2.5 rounded-xl font-display font-semibold text-xs transition-all duration-200 cursor-pointer shadow-xs"
-                  >
-                    অর্ডার বাতিল/পরিবর্তন
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          ) : (
             <form onSubmit={handleConfirmOrder} className="p-6 md:p-10 space-y-8 text-left">
               
               {/* Step 1: Choose Package Option */}
@@ -247,7 +250,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                 </div>
 
                 <div className="grid grid-cols-1 gap-4">
-                  {packageOptions.map((pkg) => {
+                  {packages.map((pkg) => {
                     const isChecked = selectedPkgId === pkg.id;
                     return (
                       <div
@@ -267,18 +270,18 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                           </div>
                           <div className="font-display">
                             <span className="font-bold text-primary-dark block text-sm sm:text-base">{pkg.title}</span>
-                            <span className="text-xs text-primary-dark/70 font-sans">{pkg.label}</span>
+                            {pkg.label && <span className="text-xs text-primary-dark/70 font-sans block mt-0.5">{pkg.label}</span>}
                           </div>
                         </div>
 
                         {/* Right: Price */}
                         <div className="text-right font-display text-base sm:text-lg font-bold text-[#003520]">
                           ৳{pkg.price}
-                          {pkg.savings && (
+                          {pkg.savings && pkg.savings > 0 ? (
                             <span className="block text-[10px] bg-brand-red text-white font-sans px-1.5 py-0.5 rounded-md ml-1.5 shrink-0 inline-block">
                               সাশ্রয় ৳{pkg.savings}!
                             </span>
-                          )}
+                          ) : null}
                         </div>
                       </div>
                     );
@@ -327,6 +330,51 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                     />
                   </div>
 
+                  {/* District Selection */}
+                  <div className="space-y-1.5">
+                    <label className="font-display font-semibold text-primary-dark block flex items-center gap-1.5">
+                      <MapPin size={16} className="text-brand-green" />
+                      জেলা নির্বাচন করুন *
+                    </label>
+                    <select
+                      value={selectedDistrictCode}
+                      onChange={(e) => handleDistrictChange(e.target.value)}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 bg-white hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green text-primary-dark font-medium font-display transition-all"
+                      id="checkout-district-select"
+                    >
+                      <option value="">জেলা নির্বাচন করুন</option>
+                      {districts.map((dist) => (
+                        <option key={dist.encrypted_id} value={dist.code}>
+                          {dist.name_bn} ({dist.name})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Thana Selection */}
+                  <div className="space-y-1.5">
+                    <label className="font-display font-semibold text-primary-dark block flex items-center gap-1.5">
+                      <MapPin size={16} className="text-brand-green" />
+                      উপজেলা / থানা *
+                    </label>
+                    <select
+                      value={selectedThanaCode}
+                      onChange={(e) => handleThanaChange(e.target.value)}
+                      disabled={!selectedDistrictCode}
+                      className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 bg-white hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green text-primary-dark font-medium font-display transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                      id="checkout-thana-select"
+                    >
+                      <option value="">উপজেলা / থানা নির্বাচন করুন</option>
+                      {(Object.values(thanaMap) as (Thana & { globalId: number })[])
+                        .filter(t => t.district_id === (districts.find(d => d.code === selectedDistrictCode)?.id || -1))
+                        .map((thana) => (
+                          <option key={thana.encrypted_id} value={thana.code}>
+                            {thana.name_bn} ({thana.name})
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+
                   {/* Addressing */}
                   <div className="space-y-1.5">
                     <label className="font-display font-semibold text-primary-dark block flex items-center gap-1.5">
@@ -337,21 +385,20 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                       rows={3}
-                      placeholder="বাসা নং, রাস্তা, এলাকা, জেলা"
+                      placeholder="বাসা নং, রাস্তা, এলাকা"
                       className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 bg-white hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green text-primary-dark font-medium placeholder-slate-400 font-display transition-all"
                       id="checkout-address-textarea"
                     />
                   </div>
 
-                  {/* Shipping locations toggle */}
+                  {/* Shipping locations display */}
                   <div className="space-y-1.5">
-                    <label className="font-display font-semibold text-primary-dark block">ডেলিভারি এলাকা *</label>
+                    <label className="font-display font-semibold text-primary-dark block">ডেলিভারি এলাকা (স্বয়ংক্রিয়ভাবে নির্বাচিত)</label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
                       
                       {/* Inside Dhaka */}
                       <div
-                        onClick={() => setDeliveryArea('inside')}
-                        className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors ${deliveryArea === 'inside' ? 'border-brand-green bg-brand-green/5' : 'border-slate-150 bg-white hover:border-slate-200'
+                        className={`flex items-center gap-3 p-3 rounded-lg border-2 pointer-events-none transition-colors ${deliveryArea === 'inside' ? 'border-brand-green bg-brand-green/5' : 'border-slate-150 bg-slate-50 opacity-60'
                           }`}
                       >
                         <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${deliveryArea === 'inside' ? 'border-brand-green bg-brand-green' : 'border-slate-300 bg-white'
@@ -363,8 +410,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
 
                       {/* Outside Dhaka */}
                       <div
-                        onClick={() => setDeliveryArea('outside')}
-                        className={`flex items-center gap-3 p-3 rounded-lg border-2 cursor-pointer transition-colors ${deliveryArea === 'outside' ? 'border-brand-green bg-brand-green/5' : 'border-slate-150 bg-white hover:border-slate-200'
+                        className={`flex items-center gap-3 p-3 rounded-lg border-2 pointer-events-none transition-colors ${deliveryArea === 'outside' ? 'border-brand-green bg-brand-green/5' : 'border-slate-150 bg-slate-50 opacity-60'
                           }`}
                       >
                         <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${deliveryArea === 'outside' ? 'border-brand-green bg-brand-green' : 'border-slate-300 bg-white'
@@ -417,16 +463,25 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
               <div className="pt-2 select-none">
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center bg-brand-green hover:bg-[#125136] text-white py-4.5 rounded-xl font-display font-bold text-base sm:text-lg transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg hover:scale-101 active:scale-100 animate-pulse-slow gap-2"
+                  disabled={isSubmitting}
+                  className="w-full flex items-center justify-center bg-brand-green hover:bg-[#125136] text-white py-4.5 rounded-xl font-display font-bold text-base sm:text-lg transition-all duration-200 cursor-pointer shadow-md hover:shadow-lg hover:scale-101 active:scale-100 animate-pulse-slow gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
                   id="order-confirm-submit"
                 >
-                  <ShoppingCart size={20} className="stroke-[2.5]" />
-                  অর্ডার কনফার্ম করুন
+                  {isSubmitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>অর্ডার প্রসেস হচ্ছে...</span>
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart size={20} className="stroke-[2.5]" />
+                      <span>অর্ডার কনফার্ম করুন</span>
+                    </>
+                  )}
                 </button>
               </div>
 
             </form>
-          )}
         </div>
 
       </div>

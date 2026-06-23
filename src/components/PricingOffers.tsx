@@ -1,5 +1,4 @@
 import { Sparkles, ArrowRight } from 'lucide-react';
-import { packageOptions } from '../data';
 import { PackageOption, PackageId } from '../types';
 import { motion } from 'motion/react';
 import bottleImg from '../assets/bottle.png';
@@ -7,9 +6,17 @@ import bottleImg from '../assets/bottle.png';
 interface PricingOffersProps {
   onSelectPackage: (pkgId: PackageId) => void;
   selectedPkgId: PackageId;
+  packages: PackageOption[];
 }
 
-export default function PricingOffers({ onSelectPackage, selectedPkgId }: PricingOffersProps) {
+const getImageUrl = (imagePath?: string) => {
+  if (!imagePath) return bottleImg;
+  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) return imagePath;
+  if (imagePath.startsWith('assets/')) return bottleImg;
+  return `http://118.179.144.13:8005/${imagePath}`;
+};
+
+export default function PricingOffers({ onSelectPackage, selectedPkgId, packages }: PricingOffersProps) {
   
   const handleSelect = (pkgId: PackageId) => {
     onSelectPackage(pkgId);
@@ -35,9 +42,9 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-stretch">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
           
-          {packageOptions.map((pkg) => {
+          {packages.map((pkg) => {
             const isSelected = selectedPkgId === pkg.id;
             return (
               <motion.div
@@ -68,53 +75,57 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
                   
                   {/* Product Bottles Graphic */}
                   <div className="flex justify-center items-center py-4">
-                    {pkg.id === 'single' && (
-                      /* 1 Real Bottle Image */
-                      <div className="relative h-36 flex items-center justify-center">
-                        <img 
-                          src={bottleImg} 
-                          alt="D-CURE Plus Bottle" 
-                          className="h-32 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
-                        />
-                      </div>
-                    )}
-                    {pkg.id === 'double' && (
+                    {(pkg.box_quantity === 2 || pkg.id === 'double') ? (
                       /* 2 Real Bottle Images representing double deal */
                       <div className="relative h-36 flex items-end justify-center pb-1 select-none">
                         {/* Left/Back Bottle */}
                         <img 
-                          src={bottleImg} 
-                          alt="D-CURE Plus Bottle Back" 
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
+                          alt={`${pkg.title} Back`} 
+                          onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-26 w-auto object-contain transform -rotate-12 translate-x-4 opacity-85 filter blur-[0.3px] drop-shadow-sm"
                         />
                         {/* Right/Front Bottle */}
                         <img 
-                          src={bottleImg} 
-                          alt="D-CURE Plus Bottle Front" 
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
+                          alt={`${pkg.title} Front`} 
+                          onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-32 w-auto object-contain relative z-10 drop-shadow-lg hover:scale-105 transition-transform duration-300"
                         />
                       </div>
-                    )}
-                    {pkg.id === 'triple' && (
+                    ) : (pkg.box_quantity === 3 || pkg.id === 'triple') ? (
                       /* 3 Real Bottle Images representing triple/full course deal */
                       <div className="relative h-36 flex items-end justify-center pb-1 select-none">
                         {/* Left/Back Bottle */}
                         <img 
-                          src={bottleImg} 
-                          alt="D-CURE Plus Bottle Left" 
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
+                          alt={`${pkg.title} Left`} 
+                          onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-26 w-auto object-contain transform -rotate-12 translate-x-8 opacity-80 filter blur-[0.3px] drop-shadow-sm"
                         />
                         {/* Right/Back Bottle */}
                         <img 
-                          src={bottleImg} 
-                          alt="D-CURE Plus Bottle Right" 
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
+                          alt={`${pkg.title} Right`} 
+                          onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-26 w-auto object-contain transform rotate-12 -translate-x-8 opacity-80 filter blur-[0.3px] drop-shadow-sm"
                         />
                         {/* Center/Front Bottle */}
                         <img 
-                          src={bottleImg} 
-                          alt="D-CURE Plus Bottle Center" 
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
+                          alt={`${pkg.title} Center`} 
+                          onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-32 w-auto object-contain relative z-10 drop-shadow-lg hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                    ) : (
+                      /* 1 Real Bottle Image */
+                      <div className="relative h-36 flex items-center justify-center">
+                        <img 
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
+                          alt={pkg.title} 
+                          onError={(e) => { e.currentTarget.src = bottleImg; }}
+                          className="h-32 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
                         />
                       </div>
                     )}
@@ -122,12 +133,17 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
 
                   {/* Title & Badge */}
                   <div className="space-y-2">
-                    <span className="inline-block bg-[#003520]/5 text-[#003520] font-display text-[11px] font-bold px-3 py-1 rounded-full border border-[#003520]/10">
-                      {pkg.label}
-                    </span>
+                    {pkg.label && (
+                      <span className="inline-block bg-[#003520]/5 text-[#003520] font-display text-[11px] font-bold px-3 py-1 rounded-full border border-[#003520]/10">
+                        {pkg.label}
+                      </span>
+                    )}
                     <h3 className="text-xl sm:text-2xl font-display font-bold text-primary-dark">
                       {pkg.title}
                     </h3>
+                    <p className="text-xs text-primary-dark/60 font-sans">
+                      {pkg.capsules}
+                    </p>
                   </div>
 
                   {/* Price Area */}
@@ -135,14 +151,14 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId }: Pricin
                     <div className="text-3xl sm:text-4xl font-display font-bold text-brand-green">
                       ৳{pkg.price}
                     </div>
-                    {pkg.savings && (
+                    {pkg.savings && pkg.savings > 0 ? (
                       <div className="text-xs sm:text-sm text-primary-dark/70 font-sans flex items-center justify-center gap-1.5">
                         <span className="line-through text-brand-red font-display">৳{pkg.originalPrice}</span>
                         <span className="bg-brand-red/10 text-brand-red px-2 py-0.5 rounded-md font-semibold">
                           ৳{pkg.savings} সাশ্রয়!
                         </span>
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 </div>
 
