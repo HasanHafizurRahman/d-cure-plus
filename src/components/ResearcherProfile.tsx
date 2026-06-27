@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { ShoppingCart } from 'lucide-react';
 import doctorImg from '../assets/doctor.png';
 
 export default function ResearcherProfile() {
@@ -94,6 +95,26 @@ export default function ResearcherProfile() {
                 <span className="text-xl sm:text-2xl font-display font-bold text-primary-dark">৫০০০+</span>
                 <span className="text-xs sm:text-sm text-primary-dark/70 font-sans mt-0.5">সফল রোগী</span>
               </div>
+            </motion.div>
+
+            {/* Call to action button */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="pt-6 flex justify-center lg:justify-start"
+            >
+              <button
+                onClick={() => {
+                  const el = document.getElementById('checkout');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="inline-flex items-center justify-center bg-brand-green hover:bg-primary-medium text-white px-8 py-3.5 rounded-xl font-display font-bold text-base transition-all duration-300 cursor-pointer shadow-lg hover:shadow-brand-green/20 hover:-translate-y-0.5 transform active:scale-98"
+              >
+                গবেষকের তৈরি ঔষধটি সরাসরি অর্ডার করুন
+                <ShoppingCart className="ml-2 w-5 h-5" />
+              </button>
             </motion.div>
 
           </div>

@@ -12,7 +12,8 @@ import {
   ShieldAlert, 
   Eye, 
   Brain,
-  Scale
+  Scale,
+  ShoppingCart
 } from 'lucide-react';
 
 export default function ProductDetails() {
@@ -38,7 +39,7 @@ export default function ProductDetails() {
         </div>
 
         {/* Stacked Content Sections */}
-        <div className="max-w-5xl mx-auto space-y-16">
+        <div className="max-w-(--spacing-container-max) mx-auto space-y-16">
           
           {/* Section 1: Ingredients */}
           <motion.div
@@ -461,6 +462,26 @@ export default function ProductDetails() {
                 </div>
               </div>
             </div>
+          </motion.div>
+
+          {/* Bottom order button to drive conversion */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5 }}
+            className="pt-10 flex justify-center"
+          >
+            <button
+              onClick={() => {
+                const el = document.getElementById('checkout');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="inline-flex items-center justify-center bg-brand-green hover:bg-primary-medium text-white px-8 py-3.5 rounded-xl font-display font-bold text-base transition-all duration-300 cursor-pointer shadow-lg hover:shadow-brand-green/20 hover:-translate-y-0.5 transform active:scale-98"
+            >
+              নিরাপদ ইউনানী ফর্মুলা D-CURE Plus এখনই অর্ডার করুন
+              <ShoppingCart className="ml-2 w-5 h-5" />
+            </button>
           </motion.div>
 
         </div>

@@ -12,7 +12,7 @@ export default function FAQSection() {
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-b from-[#fdfbe9]/60 via-[#f3f9f4] to-white border-t border-slate-200">
-      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
+      <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
         
         {/* Header Titles */}
         <div className="max-w-xl mx-auto mb-16 space-y-3">
@@ -26,7 +26,7 @@ export default function FAQSection() {
         </div>
 
         {/* FAQs List Accordion */}
-        <div className="space-y-4 text-left" id="faq-accordions">
+        <div className="max-w-(--spacing-container-max) mx-auto space-y-4 text-left" id="faq-accordions">
           {faqItems.map((faq) => {
             const isOpen = openId === faq.id;
             return (

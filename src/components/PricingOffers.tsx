@@ -13,11 +13,11 @@ const getImageUrl = (imagePath?: string) => {
   if (!imagePath) return bottleImg;
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) return imagePath;
   if (imagePath.startsWith('assets/')) return bottleImg;
-  return `http://118.179.144.13:8005/${imagePath}`;
+  return `https://temp-api.cedrabd.com/${imagePath}`;
 };
 
 export default function PricingOffers({ onSelectPackage, selectedPkgId, packages }: PricingOffersProps) {
-  
+
   const handleSelect = (pkgId: PackageId) => {
     onSelectPackage(pkgId);
     const el = document.getElementById('checkout');
@@ -29,7 +29,7 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId, packages
   return (
     <section id="pricing" className="py-16 md:py-24 bg-gradient-to-br from-white via-[#e8f5e9]/30 to-[#fdfbe9]/80 border-t border-slate-200">
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
-        
+
         {/* Section Title */}
         <div className="max-w-xl mx-auto mb-16 space-y-3">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-primary-dark tracking-tight">
@@ -43,7 +43,7 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId, packages
 
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-6xl mx-auto items-stretch">
-          
+
           {packages.map((pkg) => {
             const isSelected = selectedPkgId === pkg.id;
             return (
@@ -54,11 +54,10 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId, packages
                 viewport={{ once: true, margin: "-50px" }}
                 whileHover={{ scale: 1.02 }}
                 onClick={() => handleSelect(pkg.id as PackageId)}
-                className={`relative bg-white border rounded-2xl p-6 md:p-8 flex flex-col justify-between cursor-pointer transition-all duration-300 shadow-xs hover:shadow-lg ${
-                  pkg.isPopular 
-                    ? 'border-accent-gold ring-2 ring-accent-gold/20' 
+                className={`relative bg-white border rounded-2xl p-6 md:p-8 flex flex-col justify-between cursor-pointer transition-all duration-300 shadow-xs hover:shadow-lg ${pkg.isPopular
+                    ? 'border-accent-gold ring-2 ring-accent-gold/20'
                     : 'border-slate-200 hover:border-slate-350'
-                } ${isSelected ? 'ring-2 ring-brand-green border-brand-green' : ''}`}
+                  } ${isSelected ? 'ring-2 ring-brand-green border-brand-green' : ''}`}
                 id={`price-card-${pkg.id}`}
               >
                 {/* Popular Corner Ribbon flag */}
@@ -72,23 +71,23 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId, packages
 
                 {/* Card Content */}
                 <div className="space-y-6 text-center">
-                  
+
                   {/* Product Bottles Graphic */}
                   <div className="flex justify-center items-center py-4">
                     {(pkg.box_quantity === 2 || pkg.id === 'double') ? (
                       /* 2 Real Bottle Images representing double deal */
                       <div className="relative h-36 flex items-end justify-center pb-1 select-none">
                         {/* Left/Back Bottle */}
-                        <img 
-                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
-                          alt={`${pkg.title} Back`} 
+                        <img
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg}
+                          alt={`${pkg.title} Back`}
                           onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-26 w-auto object-contain transform -rotate-12 translate-x-4 opacity-85 filter blur-[0.3px] drop-shadow-sm"
                         />
                         {/* Right/Front Bottle */}
-                        <img 
-                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
-                          alt={`${pkg.title} Front`} 
+                        <img
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg}
+                          alt={`${pkg.title} Front`}
                           onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-32 w-auto object-contain relative z-10 drop-shadow-lg hover:scale-105 transition-transform duration-300"
                         />
@@ -97,23 +96,23 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId, packages
                       /* 3 Real Bottle Images representing triple/full course deal */
                       <div className="relative h-36 flex items-end justify-center pb-1 select-none">
                         {/* Left/Back Bottle */}
-                        <img 
-                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
-                          alt={`${pkg.title} Left`} 
+                        <img
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg}
+                          alt={`${pkg.title} Left`}
                           onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-26 w-auto object-contain transform -rotate-12 translate-x-8 opacity-80 filter blur-[0.3px] drop-shadow-sm"
                         />
                         {/* Right/Back Bottle */}
-                        <img 
-                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
-                          alt={`${pkg.title} Right`} 
+                        <img
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg}
+                          alt={`${pkg.title} Right`}
                           onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-26 w-auto object-contain transform rotate-12 -translate-x-8 opacity-80 filter blur-[0.3px] drop-shadow-sm"
                         />
                         {/* Center/Front Bottle */}
-                        <img 
-                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
-                          alt={`${pkg.title} Center`} 
+                        <img
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg}
+                          alt={`${pkg.title} Center`}
                           onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-32 w-auto object-contain relative z-10 drop-shadow-lg hover:scale-105 transition-transform duration-300"
                         />
@@ -121,9 +120,9 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId, packages
                     ) : (
                       /* 1 Real Bottle Image */
                       <div className="relative h-36 flex items-center justify-center">
-                        <img 
-                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg} 
-                          alt={pkg.title} 
+                        <img
+                          src={pkg.image_path ? getImageUrl(pkg.image_path) : bottleImg}
+                          alt={pkg.title}
                           onError={(e) => { e.currentTarget.src = bottleImg; }}
                           className="h-32 w-auto object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
                         />
@@ -166,11 +165,10 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId, packages
                 <div className="mt-8 pt-4 border-t border-slate-100">
                   <button
                     onClick={() => handleSelect(pkg.id as PackageId)}
-                    className={`w-full flex items-center justify-center py-3 rounded-md font-display font-bold text-sm transition-all duration-200 cursor-pointer ${
-                      pkg.isPopular 
-                        ? 'bg-primary-dark hover:bg-primary-medium text-white shadow-md' 
+                    className={`w-full flex items-center justify-center py-3 rounded-md font-display font-bold text-sm transition-all duration-200 cursor-pointer ${pkg.isPopular
+                        ? 'bg-primary-dark hover:bg-primary-medium text-white shadow-md'
                         : 'bg-white border border-primary-dark text-primary-dark hover:bg-slate-50'
-                    }`}
+                      }`}
                   >
                     প্যাকেজটি বেছে নিন
                     <ArrowRight size={16} className="ml-1.5" />

@@ -25,7 +25,7 @@ export default function App() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const API_BASE_URL = import.meta.env.DEV ? '' : 'http://118.179.144.13:8005';
+        const API_BASE_URL = import.meta.env.DEV ? '' : 'https://temp-api.cedrabd.com';
         const response = await fetch(`${API_BASE_URL}/api/public/products`);
         if (response.ok) {
           const data = await response.json();
@@ -47,7 +47,7 @@ export default function App() {
               };
             });
             setPackages(mappedPackages);
-            
+
             // Set default selected package based on dynamic data
             const popular = mappedPackages.find(p => p.isPopular);
             if (popular) {

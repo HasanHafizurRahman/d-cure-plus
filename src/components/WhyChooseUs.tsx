@@ -1,4 +1,4 @@
-import { Eye, Shield, Package } from 'lucide-react';
+import { Eye, Shield, Package, ShoppingCart } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function WhyChooseUs() {
@@ -95,6 +95,20 @@ export default function WhyChooseUs() {
               <div className={`absolute bottom-0 left-0 w-full h-1 bg-transparent transition-colors duration-300 ${card.theme.barColor}`}></div>
             </motion.div>
           ))}
+        </div>
+        
+        {/* Call to action button inside benefits section to drive conversions */}
+        <div className="mt-14">
+          <button
+            onClick={() => {
+              const el = document.getElementById('checkout');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="inline-flex items-center justify-center bg-brand-green hover:bg-primary-medium text-white px-8 py-3.5 rounded-xl font-display font-bold text-base transition-all duration-300 cursor-pointer shadow-lg hover:shadow-brand-green/25 hover:-translate-y-0.5 transform active:scale-98"
+          >
+            D-CURE Plus পেতে এখনই অর্ডার করুন
+            <ShoppingCart className="ml-2 w-5 h-5" />
+          </button>
         </div>
 
       </div>

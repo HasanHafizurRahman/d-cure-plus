@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, X, Volume2, VolumeX, RotateCcw, ThumbsUp, Activity, UserCheck } from 'lucide-react';
+import { Play, X, Volume2, VolumeX, RotateCcw, ThumbsUp, Activity, UserCheck, ShoppingCart } from 'lucide-react';
 import { videoItems } from '../data';
 import { VideoItem } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
@@ -36,7 +36,7 @@ export default function VideoGallery() {
         </div>
 
         {/* Video Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-(--spacing-container-max) mx-auto">
           {videoItems.map((video) => (
             <motion.div
               key={video.id}
@@ -227,6 +227,20 @@ export default function VideoGallery() {
             </div>
           )}
         </AnimatePresence>
+
+        {/* Order Call to Action button */}
+        <div className="mt-14">
+          <button
+            onClick={() => {
+              const el = document.getElementById('checkout');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="inline-flex items-center justify-center bg-brand-green hover:bg-primary-medium text-white px-8 py-3.5 rounded-xl font-display font-bold text-base transition-all duration-300 cursor-pointer shadow-lg hover:shadow-brand-green/20 hover:-translate-y-0.5 transform active:scale-98"
+          >
+            অফারে D-CURE Plus পেতে এখনই অর্ডার করুন
+            <ShoppingCart className="ml-2 w-5 h-5" />
+          </button>
+        </div>
 
       </div>
     </section>

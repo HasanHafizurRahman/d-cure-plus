@@ -1,4 +1,4 @@
-import { Star, Quote } from 'lucide-react';
+import { Star, Quote, ShoppingCart } from 'lucide-react';
 import { reviewItems } from '../data';
 import { motion } from 'motion/react';
 
@@ -55,6 +55,20 @@ export default function CustomerReviews() {
               <Quote size={48} className="absolute top-4 right-4 text-slate-200/50 -z-5" />
             </motion.div>
           ))}
+        </div>
+
+        {/* Order Call to Action button */}
+        <div className="mt-14">
+          <button
+            onClick={() => {
+              const el = document.getElementById('checkout');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="inline-flex items-center justify-center bg-brand-green hover:bg-primary-medium text-white px-8 py-3.5 rounded-xl font-display font-bold text-base transition-all duration-300 cursor-pointer shadow-lg hover:shadow-brand-green/20 hover:-translate-y-0.5 transform active:scale-98"
+          >
+            শতভাগ সুস্থতায় D-CURE Plus এখনই অর্ডার করুন
+            <ShoppingCart className="ml-2 w-5 h-5" />
+          </button>
         </div>
 
       </div>
