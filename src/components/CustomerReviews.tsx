@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 
 export default function CustomerReviews() {
   return (
-    <section id="reviews" className="py-16 md:py-24 bg-gradient-to-br from-white via-[#e8f5e9]/40 to-[#fdfbe9]">
+    <section id="reviews" className="py-10 md:py-24 bg-gradient-to-br from-white via-[#e8f5e9]/40 to-[#fdfbe9]">
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
         
         {/* Title Block */}

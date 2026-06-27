@@ -218,7 +218,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
   };
 
   return (
-    <section id="checkout" className="py-16 md:py-24 bg-gradient-to-b from-[#f7faf8] to-[#edf3ef] border-t border-slate-200 scroll-mt-12">
+    <section id="checkout" className="py-10 md:py-24 bg-gradient-to-b from-[#f7faf8] to-[#edf3ef] border-t border-slate-200 scroll-mt-12">
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
 
         {/* Title Details */}

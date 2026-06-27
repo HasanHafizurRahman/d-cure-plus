@@ -95,7 +95,7 @@ export default function VideoGallery() {
   };
 
   return (
-    <section id="video" className="py-16 md:py-24 bg-slate-50 border-t border-slate-200">
+    <section id="video" className="py-10 md:py-24 bg-slate-50 border-t border-slate-200">
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
 
         {/* Header Title */}
@@ -123,7 +123,7 @@ export default function VideoGallery() {
               id={video.id}
             >
               {/* Thumbnail Area */}
-              <div className="relative overflow-hidden bg-slate-900 group aspect-square">
+              <div className="relative overflow-hidden bg-slate-900 group aspect-[4/3]">
                 <video
                   src={getVideoSrc(video.id)}
                   preload="metadata"

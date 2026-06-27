@@ -27,7 +27,7 @@ export default function PricingOffers({ onSelectPackage, selectedPkgId, packages
   };
 
   return (
-    <section id="pricing" className="py-16 md:py-24 bg-gradient-to-br from-white via-[#e8f5e9]/30 to-[#fdfbe9]/80 border-t border-slate-200">
+    <section id="pricing" className="py-10 md:py-24 bg-gradient-to-br from-white via-[#e8f5e9]/30 to-[#fdfbe9]/80 border-t border-slate-200">
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
 
         {/* Section Title */}

@@ -1,16 +1,16 @@
 import { motion } from 'motion/react';
-import { 
-  Dna, 
-  HeartPulse, 
-  ClipboardList, 
-  FlaskConical, 
-  Check, 
-  AlertOctagon, 
-  Activity, 
-  Sparkles, 
-  Heart, 
-  ShieldAlert, 
-  Eye, 
+import {
+  Dna,
+  HeartPulse,
+  ClipboardList,
+  FlaskConical,
+  Check,
+  AlertOctagon,
+  Activity,
+  Sparkles,
+  Heart,
+  ShieldAlert,
+  Eye,
   Brain,
   Scale,
   ShoppingCart
@@ -18,7 +18,7 @@ import {
 
 export default function ProductDetails() {
   return (
-    <section id="specifications" className="py-20 bg-gradient-to-br from-[#f2f8f3] via-white to-[#fbf8e8]/50 relative overflow-hidden">
+    <section id="specifications" className="py-12 md:py-24 bg-gradient-to-br from-[#f2f8f3] via-white to-[#fbf8e8]/50 relative overflow-hidden">
       {/* Decorative background gradients */}
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-brand-green/3 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent-gold/4 rounded-full blur-3xl pointer-events-none"></div>
@@ -40,7 +40,7 @@ export default function ProductDetails() {
 
         {/* Stacked Content Sections */}
         <div className="max-w-(--spacing-container-max) mx-auto space-y-16">
-          
+
           {/* Section 1: Ingredients */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -62,7 +62,7 @@ export default function ProductDetails() {
                 </h3>
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {/* Ingredient Card 1 */}
               <div className="bg-white border border-slate-200 p-6 rounded-2xl shadow-xs hover:border-brand-green/30 hover:shadow-md transition-all duration-300 flex flex-col justify-between group">
@@ -479,7 +479,7 @@ export default function ProductDetails() {
               }}
               className="inline-flex items-center justify-center bg-brand-green hover:bg-primary-medium text-white px-8 py-3.5 rounded-xl font-display font-bold text-base transition-all duration-300 cursor-pointer shadow-lg hover:shadow-brand-green/20 hover:-translate-y-0.5 transform active:scale-98"
             >
-              নিরাপদ ইউনানী ফর্মুলা D-CURE Plus এখনই অর্ডার করুন
+              D-CURE Plus আজই অর্ডার করুন
               <ShoppingCart className="ml-2 w-5 h-5" />
             </button>
           </motion.div>

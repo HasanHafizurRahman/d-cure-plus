@@ -42,13 +42,13 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section id="benefits" className="py-20 md:py-28 bg-gradient-to-br from-[#fbf8e8] via-white to-[#e4f3e6] relative overflow-hidden">
+    <section id="benefits" className="py-12 md:py-28 bg-gradient-to-br from-[#fbf8e8] via-white to-[#e4f3e6] relative overflow-hidden">
       {/* Subtle background decoration */}
       <div className="absolute top-1/2 left-0 w-64 h-64 bg-brand-green/3 rounded-full blur-3xl -z-10 pointer-events-none"></div>
       <div className="absolute top-1/3 right-0 w-64 h-64 bg-accent-gold/3 rounded-full blur-3xl -z-10 pointer-events-none"></div>
 
       <div className="max-w-(--spacing-container-max) mx-auto px-4 sm:px-6 lg:px-8 text-center bangla-text">
-        
+
         {/* Title Group */}
         <div className="max-w-3xl mx-auto mb-16 space-y-4">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-black text-primary-dark tracking-tight leading-normal">
@@ -96,7 +96,7 @@ export default function WhyChooseUs() {
             </motion.div>
           ))}
         </div>
-        
+
         {/* Call to action button inside benefits section to drive conversions */}
         <div className="mt-14">
           <button
@@ -106,7 +106,7 @@ export default function WhyChooseUs() {
             }}
             className="inline-flex items-center justify-center bg-brand-green hover:bg-primary-medium text-white px-8 py-3.5 rounded-xl font-display font-bold text-base transition-all duration-300 cursor-pointer shadow-lg hover:shadow-brand-green/25 hover:-translate-y-0.5 transform active:scale-98"
           >
-            D-CURE Plus পেতে এখনই অর্ডার করুন
+            এখনই অর্ডার করুন
             <ShoppingCart className="ml-2 w-5 h-5" />
           </button>
         </div>
