@@ -1,7 +1,8 @@
-import { useState, useEffect, FormEvent } from 'react';
-import { ShoppingCart, Smartphone, User, MapPin, CheckCircle, Package, ArrowRight, ShieldCheck, AlertCircle, MessageCircle } from 'lucide-react';
+import { useState, useEffect, FormEvent, useMemo } from 'react';
+import { ShoppingCart, Smartphone, User, MapPin, ShieldCheck, AlertCircle } from 'lucide-react';
 import { OrderDetails, PackageId, PackageOption } from '../types';
 import { motion, AnimatePresence } from 'motion/react';
+import SearchableSelect from './SearchableSelect';
 
 interface CheckoutFormProps {
   selectedPkgId: PackageId;
@@ -117,6 +118,27 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
       }
     }
   };
+
+  const districtOptions = useMemo(
+    () =>
+      districts.map((dist) => ({
+        value: dist.code,
+        label: `${dist.name_bn} (${dist.name})`,
+        searchText: `${dist.name_bn} ${dist.name}`,
+      })),
+    [districts],
+  );
+
+  const thanaOptions = useMemo(() => {
+    const selectedDistrictId = districts.find((d) => d.code === selectedDistrictCode)?.id ?? -1;
+    return (Object.values(thanaMap) as (Thana & { globalId: number })[])
+      .filter((t) => t.district_id === selectedDistrictId)
+      .map((thana) => ({
+        value: thana.code,
+        label: `${thana.name_bn} (${thana.name})`,
+        searchText: `${thana.name_bn} ${thana.name}`,
+      }));
+  }, [thanaMap, districts, selectedDistrictCode]);
 
   // Find selected package details
   const currentPackage = packages.find(p => p.id === selectedPkgId) || packages[0];
@@ -336,19 +358,13 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                     <MapPin size={16} className="text-brand-green" />
                     জেলা নির্বাচন করুন *
                   </label>
-                  <select
-                    value={selectedDistrictCode}
-                    onChange={(e) => handleDistrictChange(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 bg-white hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green text-primary-dark font-medium font-display transition-all"
+                  <SearchableSelect
                     id="checkout-district-select"
-                  >
-                    <option value="">জেলা নির্বাচন করুন</option>
-                    {districts.map((dist) => (
-                      <option key={dist.encrypted_id} value={dist.code}>
-                        {dist.name_bn} ({dist.name})
-                      </option>
-                    ))}
-                  </select>
+                    value={selectedDistrictCode}
+                    onChange={handleDistrictChange}
+                    options={districtOptions}
+                    placeholder="জেলা খুঁজুন বা নির্বাচন করুন"
+                  />
                 </div>
 
                 {/* Thana Selection */}
@@ -357,22 +373,14 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
                     <MapPin size={16} className="text-brand-green" />
                     উপজেলা / থানা *
                   </label>
-                  <select
-                    value={selectedThanaCode}
-                    onChange={(e) => handleThanaChange(e.target.value)}
-                    disabled={!selectedDistrictCode}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg p-3 bg-white hover:border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green text-primary-dark font-medium font-display transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                  <SearchableSelect
                     id="checkout-thana-select"
-                  >
-                    <option value="">উপজেলা / থানা নির্বাচন করুন</option>
-                    {(Object.values(thanaMap) as (Thana & { globalId: number })[])
-                      .filter(t => t.district_id === (districts.find(d => d.code === selectedDistrictCode)?.id || -1))
-                      .map((thana) => (
-                        <option key={thana.encrypted_id} value={thana.code}>
-                          {thana.name_bn} ({thana.name})
-                        </option>
-                      ))}
-                  </select>
+                    value={selectedThanaCode}
+                    onChange={handleThanaChange}
+                    options={thanaOptions}
+                    placeholder="উপজেলা / থানা খুঁজুন বা নির্বাচন করুন"
+                    disabled={!selectedDistrictCode}
+                  />
                 </div>
 
                 {/* Addressing */}
