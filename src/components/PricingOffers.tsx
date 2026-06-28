@@ -13,7 +13,8 @@ const getImageUrl = (imagePath?: string) => {
   if (!imagePath) return bottleImg;
   if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) return imagePath;
   if (imagePath.startsWith('assets/')) return bottleImg;
-  return `https://temp-api.cedrabd.com/${imagePath}`;
+  const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://temp-api.cedrabd.com';
+  return `${baseUrl}/${imagePath}`;
 };
 
 export default function PricingOffers({ onSelectPackage, selectedPkgId, packages }: PricingOffersProps) {

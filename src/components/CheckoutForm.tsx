@@ -28,7 +28,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
   useEffect(() => {
     const loadDistrictsAndThanas = async () => {
       try {
-        const API_BASE_URL = import.meta.env.DEV ? '' : 'https://temp-api.cedrabd.com';
+        const API_BASE_URL = import.meta.env.DEV ? '' : (import.meta.env.VITE_API_BASE_URL || 'https://temp-api.cedrabd.com');
         const distRes = await fetch(`${API_BASE_URL}/api/public/districts`);
         if (distRes.ok) {
           const distData = await distRes.json();
@@ -184,7 +184,7 @@ export default function CheckoutForm({ selectedPkgId, setSelectedPkgId, onSubmit
 
     try {
       setIsSubmitting(true);
-      const API_BASE_URL = import.meta.env.DEV ? '' : 'https://temp-api.cedrabd.com';
+      const API_BASE_URL = import.meta.env.DEV ? '' : (import.meta.env.VITE_API_BASE_URL || 'https://temp-api.cedrabd.com');
       const response = await fetch(`${API_BASE_URL}/api/public/orders`, {
         method: 'POST',
         headers: {
